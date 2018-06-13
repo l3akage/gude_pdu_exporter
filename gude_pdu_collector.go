@@ -83,7 +83,7 @@ func (c gudePduCollector) collectTarget(target string, ch chan<- prometheus.Metr
 	}
 	defer snmp.Conn.Close()
 
-	oids := []string{"1.3.6.1.4.1.28507.27.1.1.1.1.0", "1.3.6.1.4.1.28507.38.1.1.1.1.0"}
+	oids := []string{"1.3.6.1.4.1.28507.27.1.1.1.1.0", "1.3.6.1.4.1.28507.38.1.1.1.1.0", "1.3.6.1.4.1.28507.62.1.1.1.1.0"}
 	result, err2 := snmp.Get(oids)
 	if err2 != nil {
 		log.Infof("Get() err: %v\n", err)
@@ -100,6 +100,8 @@ func (c gudePduCollector) collectTarget(target string, ch chan<- prometheus.Metr
 			device = "27"
 		case oids[1]:
 			device = "38"
+		case oids[2]:
+			device = "62"
 		}
 	}
 	err = snmp.Walk("1.3.6.1.4.1.28507."+device, func(pdu gosnmp.SnmpPDU) error {
